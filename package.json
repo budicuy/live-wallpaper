@@ -140,5 +140,8 @@
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.2",
     "uglify-js": "^3.17.4"
-  }
+  },
+  "trustedDependencies": [
+    "@vscode/vsce-sign"
+  ]
 }
