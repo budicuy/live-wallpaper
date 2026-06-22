@@ -4,9 +4,7 @@
 [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/live-wallpaper.live-wallpaper?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=live-wallpaper.live-wallpaper)
 [![License](https://img.shields.io/github/license/budicuy/live-wallpaper?style=flat-square)](https://github.com/budicuy/live-wallpaper/blob/main/LICENSE)
 
-Bring your VSCode window to life by setting an MP4 video as your editor background wallpaper. 
-
-Choose your favorite live wallpapers, loop them, adjust their opacity, and enjoy an immersive coding atmosphere. Works seamlessly on **Windows**, **macOS**, and **Linux**!
+Bring your VSCode window to life by setting an MP4 video as your editor background wallpaper. Choose your favorite live wallpapers, loop them, adjust their opacity, and enjoy a more fun and enjoyable coding experience. Works seamlessly on Windows, macOS, and Linux!
 
 ---
 
