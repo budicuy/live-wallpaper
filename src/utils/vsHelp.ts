@@ -1,4 +1,4 @@
-import { pathToFileURL } from 'url';
+import { pathToFileURL } from 'node:url';
 
 import vscode from 'vscode';
 
@@ -19,9 +19,12 @@ export const vsHelp = {
         const opts = { ...new ReloadOptions(), ...options };
 
         if (opts.message) {
-            const confirmed = await vscode.window.showInformationMessage(opts.message, {
-                title: opts.btnReload
-            });
+            const confirmed = await vscode.window.showInformationMessage(
+                opts.message,
+                {
+                    title: opts.btnReload,
+                },
+            );
             if (!confirmed) {
                 return;
             }
@@ -44,7 +47,7 @@ export const vsHelp = {
      *   vscode-file://vscode-app/<absolute-path>
      */
     normalizeVideoPath(rawPath: string): string {
-        if (!rawPath || !rawPath.trim()) {
+        if (!rawPath?.trim()) {
             return '';
         }
 
@@ -68,10 +71,13 @@ export const vsHelp = {
             // Convert file:// → vscode-file://vscode-app
             // file:///home/user/video.mp4  →  vscode-file://vscode-app/home/user/video.mp4
             // file:///C:/Users/user/video.mp4  →  vscode-file://vscode-app/C:/Users/user/video.mp4
-            const vsCodeFileUrl = fileUrl.replace(/^file:\/\//, 'vscode-file://vscode-app');
+            const vsCodeFileUrl = fileUrl.replace(
+                /^file:\/\//,
+                'vscode-file://vscode-app',
+            );
             return vscode.Uri.parse(vsCodeFileUrl).toString();
         } catch {
             return '';
         }
-    }
+    },
 };

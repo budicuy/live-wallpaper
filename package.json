@@ -37,7 +37,10 @@
     "vscode:uninstall": "node ./out/uninstall",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "package": "vsce package"
+    "package": "vsce package",
+    "lint": " tsc --noEmit && biome lint ./src",
+    "format": "tsc --noEmit &&biome format --write ./src",
+    "check": "tsc --noEmit &&biome check --write ./src"
   },
   "contributes": {
     "commands": [
@@ -127,6 +130,7 @@
     }
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.5.0",
     "@types/node": "^20.0.0",
     "@types/uglify-js": "^3.17.5",
     "@types/vscode": "^1.80.0",

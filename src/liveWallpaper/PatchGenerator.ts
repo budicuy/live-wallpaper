@@ -64,8 +64,8 @@ export class PatchGenerator {
 
         const suppressCSS = corruptionMessages
             .map(
-                msg =>
-                    `.notification-toast-container:has([aria-label*="${msg}"]){display:none!important;}`
+                (msg) =>
+                    `.notification-toast-container:has([aria-label*="${msg}"]){display:none!important;}`,
             )
             .join('');
 

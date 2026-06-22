@@ -14,7 +14,7 @@
  *  https://code.visualstudio.com/api/references/extension-manifest#extension-uninstall-hook
  */
 
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 
 // Import directly from source files — avoid re-exports that pull in vscode module
 import { HtmlPatchFile } from './liveWallpaper/PatchFile/PatchFile.html';
@@ -23,10 +23,14 @@ import { ENCODING, TOUCH_FILE_PATH } from './utils/constants';
 async function uninstall(): Promise<void> {
     try {
         // The touch file stores the workbench.html path recorded at install time
-        const htmlPath = (await fs.promises.readFile(TOUCH_FILE_PATH, ENCODING)).trim();
+        const htmlPath = (
+            await fs.promises.readFile(TOUCH_FILE_PATH, ENCODING)
+        ).trim();
 
         if (!htmlPath) {
-            console.log('Live Wallpaper: No touch file content found — skipping cleanup.');
+            console.log(
+                'Live Wallpaper: No touch file content found — skipping cleanup.',
+            );
             return;
         }
 

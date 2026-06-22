@@ -33,8 +33,8 @@ export class HtmlPatchFile extends AbsPatchFile {
                     `<!-- live-wallpaper-start ${LW_VER}.${VERSION} -->`,
                     `<script>${patchContent}</script>`,
                     '<!-- live-wallpaper-end -->',
-                    '</html>'
-                ].join('\n')
+                    '</html>',
+                ].join('\n'),
             );
 
             // No change needed (e.g. content was already up-to-date)
@@ -55,7 +55,7 @@ export class HtmlPatchFile extends AbsPatchFile {
         // Remove the injected script block between our markers
         content = content.replace(
             /<!-- live-wallpaper-start[\s\S]*?<!-- live-wallpaper-end -->\n?/g,
-            ''
+            '',
         );
 
         return content;

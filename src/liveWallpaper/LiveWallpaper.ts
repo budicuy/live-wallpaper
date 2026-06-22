@@ -1,12 +1,17 @@
-import fs from 'fs';
+import fs from 'node:fs';
 
-import vscode, { Disposable } from 'vscode';
+import vscode, { type Disposable } from 'vscode';
 
-import { ENCODING, CONFIG_SECTION, TOUCH_FILE_PATH, VERSION } from '../utils/constants';
+import {
+    CONFIG_SECTION,
+    ENCODING,
+    TOUCH_FILE_PATH,
+    VERSION,
+} from '../utils/constants';
 import { vscodePath } from '../utils/vscodePath';
 import { vsHelp } from '../utils/vsHelp';
 import { EFilePatchType, HtmlPatchFile } from './PatchFile';
-import { LiveWallpaperConfig, PatchGenerator } from './PatchGenerator';
+import { type LiveWallpaperConfig, PatchGenerator } from './PatchGenerator';
 
 /** Default configuration values */
 const DEFAULTS: Required<LiveWallpaperConfig> & { enabled: boolean } = {
@@ -14,7 +19,7 @@ const DEFAULTS: Required<LiveWallpaperConfig> & { enabled: boolean } = {
     opacity: 0.3,
     size: 'cover',
     loop: true,
-    enabled: true
+    enabled: true,
 };
 
 /**
@@ -48,7 +53,11 @@ export class LiveWallpaper implements Disposable {
         const firstLoad = !fs.existsSync(TOUCH_FILE_PATH);
 
         if (firstLoad) {
-            await fs.promises.writeFile(TOUCH_FILE_PATH, vscodePath.workbenchHtmlPath, ENCODING);
+            await fs.promises.writeFile(
+                TOUCH_FILE_PATH,
+                vscodePath.workbenchHtmlPath,
+                ENCODING,
+            );
             return true;
         }
 
@@ -64,7 +73,8 @@ export class LiveWallpaper implements Disposable {
 
         const rawPath: string = cfg.get('videoPath') ?? '';
         const opacity: number = cfg.get('opacity') ?? DEFAULTS.opacity;
-        const size: 'cover' | 'contain' | 'fill' | 'auto' = cfg.get('size') ?? DEFAULTS.size;
+        const size: 'cover' | 'contain' | 'fill' | 'auto' =
+            cfg.get('size') ?? DEFAULTS.size;
         const loop: boolean = cfg.get('loop') ?? DEFAULTS.loop;
         const enabled: boolean = cfg.get('enabled') ?? DEFAULTS.enabled;
 
@@ -73,7 +83,7 @@ export class LiveWallpaper implements Disposable {
             opacity: Math.min(0.5, Math.max(0.1, opacity)),
             size,
             loop,
-            enabled
+            enabled,
         };
     }
 
@@ -90,7 +100,7 @@ export class LiveWallpaper implements Disposable {
                 vsHelp.reload({
                     message: 'Live Wallpaper will be disabled.',
                     btnReload: 'Disable and Reload',
-                    beforeReload: () => this.uninstall()
+                    beforeReload: () => this.uninstall(),
                 });
             }
             return;
@@ -99,7 +109,7 @@ export class LiveWallpaper implements Disposable {
         vsHelp.reload({
             message: 'Live Wallpaper: Configuration changed — click to apply.',
             btnReload: 'Apply and Reload',
-            beforeReload: () => this.applyPatch()
+            beforeReload: () => this.applyPatch(),
         });
     }
 
@@ -119,30 +129,35 @@ export class LiveWallpaper implements Disposable {
         const patchType = await this.htmlFile.getPatchType();
         const { enabled, videoPath } = this.buildConfig();
 
-        const needsUpdate = [EFilePatchType.Legacy, EFilePatchType.None].includes(patchType);
+        const needsUpdate = [
+            EFilePatchType.Legacy,
+            EFilePatchType.None,
+        ].includes(patchType);
 
         if (enabled && videoPath && needsUpdate) {
             vscode.window
                 .showInformationMessage(
                     `Live Wallpaper v${VERSION} is ready! Apply to activate the video background.`,
                     { title: 'Apply and Reload' },
-                    { title: 'Skip' }
+                    { title: 'Skip' },
                 )
-                .then(async choice => {
+                .then(async (choice) => {
                     if (choice?.title === 'Apply and Reload') {
                         await this.applyPatch();
-                        await vscode.commands.executeCommand('workbench.action.reloadWindow');
+                        await vscode.commands.executeCommand(
+                            'workbench.action.reloadWindow',
+                        );
                     }
                 });
         }
 
         // Watch for configuration changes
         this.disposables.push(
-            vscode.workspace.onDidChangeConfiguration(event => {
+            vscode.workspace.onDidChangeConfiguration((event) => {
                 if (event.affectsConfiguration(CONFIG_SECTION)) {
                     this.onConfigChange();
                 }
-            })
+            }),
         );
     }
 
@@ -159,16 +174,16 @@ export class LiveWallpaper implements Disposable {
 
         if (!config.videoPath) {
             vscode.window.showWarningMessage(
-                'Live Wallpaper: No video path set. Please configure `liveWallpaper.videoPath` in your settings.'
+                'Live Wallpaper: No video path set. Please configure `liveWallpaper.videoPath` in your settings.',
             );
             return false;
         }
 
         // Verify the workbench.html path is accessible
-        const fs = await import('fs');
+        const fs = await import('node:fs');
         if (!fs.existsSync(this.htmlFile.filePath)) {
             vscode.window.showErrorMessage(
-                `Live Wallpaper: Cannot find VSCode workbench.html at:\n${this.htmlFile.filePath}\n\nPlease report this issue.`
+                `Live Wallpaper: Cannot find VSCode workbench.html at:\n${this.htmlFile.filePath}\n\nPlease report this issue.`,
             );
             return false;
         }
@@ -197,12 +212,18 @@ export class LiveWallpaper implements Disposable {
      */
     public async reset(): Promise<void> {
         const cfg = vscode.workspace.getConfiguration();
-        await cfg.update('liveWallpaper', undefined, vscode.ConfigurationTarget.Global);
+        await cfg.update(
+            'liveWallpaper',
+            undefined,
+            vscode.ConfigurationTarget.Global,
+        );
         await this.uninstall();
     }
 
     /** Release all subscriptions */
     public dispose(): void {
-        this.disposables.forEach(d => d.dispose());
+        this.disposables.forEach((d) => {
+            d.dispose();
+        });
     }
 }

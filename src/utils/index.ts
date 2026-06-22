@@ -16,7 +16,10 @@ export namespace _ {
      * @param cmd   Shell command to execute
      * @param options  Options passed to sudo-prompt (e.g. { name: 'My App' })
      */
-    export function sudoExec(cmd: string, options: { name?: string } = {}): Promise<void> {
+    export function sudoExec(
+        cmd: string,
+        options: { name?: string } = {},
+    ): Promise<void> {
         return new Promise((resolve, reject) => {
             sudo.exec(cmd, options, (error?: Error) => {
                 if (error) {

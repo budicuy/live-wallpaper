@@ -1,7 +1,7 @@
-import { randomUUID } from 'crypto';
-import fs, { constants as fsConstants } from 'fs';
-import { tmpdir } from 'os';
-import path from 'path';
+import { randomUUID } from 'node:crypto';
+import fs, { constants as fsConstants } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 
 import { _ } from '../../utils';
 import { ENCODING, LW_VER, VERSION } from '../../utils/constants';
@@ -14,7 +14,7 @@ export enum EFilePatchType {
     /** File was patched by an older version */
     Legacy,
     /** File is patched by the current version */
-    Latest
+    Latest,
 }
 
 /**
@@ -67,7 +67,10 @@ export abstract class AbsPatchFile {
      * Write content to a file path.
      * On permission errors, prompts the user to retry with admin/sudo.
      */
-    protected async saveContentTo(filePath: string, content: string): Promise<boolean> {
+    protected async saveContentTo(
+        filePath: string,
+        content: string,
+    ): Promise<boolean> {
         try {
             if (fs.existsSync(filePath)) {
                 await fs.promises.access(filePath, fsConstants.W_OK);
@@ -82,7 +85,7 @@ export abstract class AbsPatchFile {
             const retry = 'Retry with Admin / Sudo';
             const result = await vsc.window.showErrorMessage(
                 `Live Wallpaper: Cannot write to file — ${e.message}`,
-                retry
+                retry,
             );
 
             if (result !== retry) {
@@ -90,17 +93,23 @@ export abstract class AbsPatchFile {
             }
 
             // Write content to a temp file then move it with sudo
-            const tempFilePath = path.join(tmpdir(), `live-wallpaper-${randomUUID()}.temp`);
+            const tempFilePath = path.join(
+                tmpdir(),
+                `live-wallpaper-${randomUUID()}.temp`,
+            );
             await fs.promises.writeFile(tempFilePath, content, ENCODING);
 
             try {
-                const mvCmd = process.platform === 'win32' ? 'move /Y' : 'mv -f';
+                const mvCmd =
+                    process.platform === 'win32' ? 'move /Y' : 'mv -f';
                 await _.sudoExec(`${mvCmd} "${tempFilePath}" "${filePath}"`, {
-                    name: 'Live Wallpaper Extension'
+                    name: 'Live Wallpaper Extension',
                 });
                 return true;
             } catch (sudoErr: any) {
-                vsc.window.showErrorMessage(`Live Wallpaper: Sudo failed — ${sudoErr.message}`);
+                vsc.window.showErrorMessage(
+                    `Live Wallpaper: Sudo failed — ${sudoErr.message}`,
+                );
                 return false;
             } finally {
                 await fs.promises.rm(tempFilePath, { force: true });
