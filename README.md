@@ -21,7 +21,7 @@ Choose your favorite live wallpapers, loop them, adjust their opacity, and enjoy
 ## ✨ Features
 
 - 🎥 **MP4 Video Backgrounds**: Supports local MP4 video files (H.264 encoded).
-- 🎛️ **Adjustable Opacity**: Modify opacity from `0.1` (mostly transparent) to `1.0` (fully visible) to fit your syntax theme.
+- 🎛️ **Adjustable Opacity**: Modify opacity from `0.1` (mostly transparent) to `0.5` to fit your syntax theme.
 - 📐 **Sizing Modes**: Configure video rendering size (`cover`, `contain`, `fill`, or `auto`).
 - 🔁 **Continuous Loop**: Toggle video looping on or off.
 - 🐧 **Cross-Platform Support**: Fully compatible with VSCode installations on Linux, Windows, and macOS.
