@@ -12,10 +12,10 @@ Choose your favorite live wallpapers, loop them, adjust their opacity, and enjoy
 
 ## 📸 Preview
 
-*Add your preview image or GIF here to wow users in the Marketplace!*
-> Example markdown:
-> `![Live Wallpaper Preview](https://raw.githubusercontent.com/username/live-wallpaper/main/images/preview.gif)`
-xx
+<p align="center">
+  <video src="https://raw.githubusercontent.com/budicuy/live-wallpaper/main/img/preview.webm" width="100%" autoplay loop muted controls></video>
+</p>
+
 ---
 
 ## ✨ Features
@@ -31,21 +31,29 @@ xx
 
 ## 🚀 Getting Started
 
-### 1. Configure the Video Path
-Open your VSCode User Settings (`settings.json`) by pressing `Ctrl + Shift + P` (or `Cmd + Shift + P` on macOS), selecting **Preferences: Open User Settings (JSON)**, and adding your configuration:
+### 1. Generate the Setup Template
+Instead of manually typing the configuration, you can let the extension generate it for you:
+1. Press `Ctrl + Shift + P` (or `Cmd + Shift + P` on macOS) to open the Command Palette.
+2. Select **`Live Wallpaper: Create Template Setup`**.
+3. This will automatically add the configuration block to your User `settings.json` and open it:
+   ```json
+   "liveWallpaper": {
+       "videoPath": "/absolute/path/to/your/wallpaper.mp4",
+       "opacity": 0.3,
+       "size": "cover",
+       "enabled": true,
+       "loop": true
+   }
+   ```
+4. Simply replace the `/absolute/path/to/your/wallpaper.mp4` with the actual path to your MP4 video file and save the file. 
 
-```json
-{
-  "liveWallpaper.videoPath": "/absolute/path/to/your/wallpaper.mp4",
-  "liveWallpaper.opacity": 0.3,
-  "liveWallpaper.size": "cover",
-  "liveWallpaper.enabled": true,
-  "liveWallpaper.loop": true
-}
-```
+   **Example Path Formats:**
+   * **Linux/macOS Absolute Path**: `/home/budi/Videos/wallpaper.mp4`
+   * **Windows Absolute Path**: `C:\Users\budi\Videos\wallpaper.mp4`
+   * **file:// URL (Universal)**: `file:///home/budi/Videos/wallpaper.mp4` or `file:///C:/Users/budi/Videos/wallpaper.mp4`
 
 ### 2. Apply and Reload
-1. Press `Ctrl + Shift + P` (or `Cmd + Shift + P` on macOS) to open the Command Palette.
+1. Open the Command Palette (`Ctrl + Shift + P` / `Cmd + Shift + P`).
 2. Select **`Live Wallpaper: Apply and Reload`**.
 3. **Note (Linux & macOS)**: Because VSCode installation files are protected, you will be prompted with an Administrator/Sudo authorization dialog. Click **Retry with Admin / Sudo** and enter your password to grant permission.
 4. VSCode will prompt you to reload the window. Click **Reload** to see your wallpaper.
@@ -54,13 +62,15 @@ Open your VSCode User Settings (`settings.json`) by pressing `Ctrl + Shift + P` 
 
 ## 🛠️ Configuration Settings
 
-| Setting | Type | Default | Description |
+All settings are configured under the `"liveWallpaper"` parent object in `settings.json`:
+
+| Key | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `liveWallpaper.videoPath` | `string` | `""` | Absolute file path to the MP4 (H.264) video. |
-| `liveWallpaper.opacity` | `number` | `0.3` | Opacity of the background video (range: `0.1` to `1.0`). |
-| `liveWallpaper.size` | `string` | `"cover"` | Sizing mode relative to the window (`cover`, `contain`, `fill`, `auto`). |
-| `liveWallpaper.enabled` | `boolean` | `true` | Quickly toggle the video background on or off. |
-| `liveWallpaper.loop` | `boolean` | `true` | Determines whether the video loops continuously. |
+| `videoPath` | `string` | `""` | Absolute file path or `file://` URL to the MP4 (H.264) video. |
+| `opacity` | `number` | `0.3` | Opacity of the background video (range: `0.1` to `0.5`). |
+| `size` | `string` | `"cover"` | Sizing mode relative to the window (`cover`, `contain`, `fill`, `auto`). |
+| `enabled` | `boolean` | `true` | Quickly toggle the video background on or off. |
+| `loop` | `boolean` | `true` | Determines whether the video loops continuously. |
 
 ---
 
@@ -68,6 +78,7 @@ Open your VSCode User Settings (`settings.json`) by pressing `Ctrl + Shift + P` 
 
 You can trigger all extension features directly from the Command Palette (`Ctrl + Shift + P` / `Cmd + Shift + P`):
 
+* **`Live Wallpaper: Create Template Setup`** — Generates the required configuration block in your `settings.json`.
 * **`Live Wallpaper: Apply and Reload`** — Applies current settings and updates the wallpaper.
 * **`Live Wallpaper: Disable and Reload`** — Disables the wallpaper and restores your VSCode interface to default.
 * **`Live Wallpaper: Reset to Defaults`** — Resets configuration values to default settings.

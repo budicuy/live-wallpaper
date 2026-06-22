@@ -70,7 +70,7 @@ export class LiveWallpaper implements Disposable {
 
         return {
             videoPath: vsHelp.normalizeVideoPath(rawPath),
-            opacity: Math.min(1.0, Math.max(0.1, opacity)),
+            opacity: Math.min(0.5, Math.max(0.1, opacity)),
             size,
             loop,
             enabled
@@ -196,12 +196,8 @@ export class LiveWallpaper implements Disposable {
      * Reset all settings to their default values and remove the patch.
      */
     public async reset(): Promise<void> {
-        const cfg = this.config;
-        await cfg.update('videoPath', DEFAULTS.videoPath, vscode.ConfigurationTarget.Global);
-        await cfg.update('opacity', DEFAULTS.opacity, vscode.ConfigurationTarget.Global);
-        await cfg.update('size', DEFAULTS.size, vscode.ConfigurationTarget.Global);
-        await cfg.update('enabled', DEFAULTS.enabled, vscode.ConfigurationTarget.Global);
-        await cfg.update('loop', DEFAULTS.loop, vscode.ConfigurationTarget.Global);
+        const cfg = vscode.workspace.getConfiguration();
+        await cfg.update('liveWallpaper', undefined, vscode.ConfigurationTarget.Global);
         await this.uninstall();
     }
 

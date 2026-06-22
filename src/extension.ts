@@ -95,6 +95,28 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         })
     );
 
+    /** Create Template Setup */
+    context.subscriptions.push(
+        vscode.commands.registerCommand('liveWallpaper.createTemplate', async () => {
+            const cfg = vscode.workspace.getConfiguration();
+            await cfg.update(
+                'liveWallpaper',
+                {
+                    videoPath: '/absolute/path/to/your/wallpaper.mp4',
+                    opacity: 0.3,
+                    size: 'cover',
+                    enabled: true,
+                    loop: true
+                },
+                vscode.ConfigurationTarget.Global
+            );
+            await vscode.commands.executeCommand('workbench.action.openSettingsJson');
+            vscode.window.showInformationMessage(
+                'Live Wallpaper: Setup template created in settings.json! Please update the videoPath.'
+            );
+        })
+    );
+
     // ── Setup — runs after commands are registered ─────────────────────────
     // Wrap in try-catch so a setup error never prevents commands from working.
     try {

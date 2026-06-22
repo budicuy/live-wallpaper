@@ -14,7 +14,7 @@
  *  https://code.visualstudio.com/api/references/extension-manifest#extension-uninstall-hook
  */
 
-import fs from 'fs';
+import * as fs from 'fs';
 
 // Import directly from source files — avoid re-exports that pull in vscode module
 import { HtmlPatchFile } from './liveWallpaper/PatchFile/PatchFile.html';
