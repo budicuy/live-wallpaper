@@ -12,7 +12,7 @@ Choose your favorite live wallpapers, loop them, adjust their opacity, and enjoy
 
 ## 📸 Preview
 
-![Live Wallpaper Preview](img/preview.gif)
+![Live Wallpaper Preview](https://raw.githubusercontent.com/budicuy/live-wallpaper/main/img/preview.gif)
 
 ---
 
