@@ -101,6 +101,12 @@ If you ever want to revert all changes, simply run the **`Live Wallpaper: Disabl
 
 ---
 
+## 🐛 Report Bugs & Issues
+
+If you encounter any bugs, issues, or have feature requests, please report them by opening an issue on the [GitHub Issues](https://github.com/budicuy/live-wallpaper/issues) page.
+
+---
+
 ## 📄 License
 
 This extension is licensed under the MIT License.
