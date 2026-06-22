@@ -8,7 +8,6 @@
 let vsc: typeof import('vscode') | undefined;
 
 try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     vsc = require('vscode');
 } catch {
     vsc = undefined;

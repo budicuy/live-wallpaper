@@ -144,9 +144,10 @@ export async function activate(
     // Wrap in try-catch so a setup error never prevents commands from working.
     try {
         await wallpaper.setup();
-    } catch (err: any) {
+    } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
         vscode.window.showErrorMessage(
-            `Live Wallpaper: Failed to initialize — ${err?.message ?? err}. ` +
+            `Live Wallpaper: Failed to initialize — ${msg}. ` +
                 `You can still use the Apply / Disable commands manually.`,
         );
     }

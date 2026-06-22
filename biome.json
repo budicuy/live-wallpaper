@@ -18,7 +18,7 @@
 		"rules": {
 			"preset": "recommended",
 			"suspicious": {
-				"noExplicitAny": "off"
+				"noExplicitAny": "error"
 			},
 			"complexity": {
 				"noStaticOnlyClass": "off"

@@ -1,6 +1,5 @@
 import path from 'node:path';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 import pkg from '../../package.json';
 
 /** Version number */

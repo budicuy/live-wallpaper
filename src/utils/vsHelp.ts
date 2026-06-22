@@ -8,7 +8,7 @@ class ReloadOptions {
     /** Text on the reload button */
     btnReload = 'Reload VSCode';
     /** Async action to run before the window reloads */
-    beforeReload?: () => Promise<any> | any;
+    beforeReload?: () => Promise<unknown> | unknown;
 }
 
 export const vsHelp = {

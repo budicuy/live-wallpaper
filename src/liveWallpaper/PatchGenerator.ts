@@ -45,22 +45,8 @@ export class PatchGenerator {
     private static buildScript(config: LiveWallpaperConfig): string {
         const { videoPath, opacity, size, loop } = config;
 
-        // Corruption-warning suppression translations (same approach as vscode-background)
-        const corruptionMessages = [
-            'installation appears to be corrupt',
-            'Installation ist offenbar beschädigt',
-            'parece estar dañada',
-            'semble être endommagée',
-            'sembra danneggiata',
-            'インストールが壊れている',
-            '설치가 손상된 것 같습니다',
-            'installatie lijkt beschadigd',
-            'parece estar corrompida',
-            '安装似乎损坏',
-            '安裝似乎已損毀',
-            'повреждена',
-            'yüklemeniz bozuk',
-        ];
+        // Corruption-warning suppression (English only)
+        const corruptionMessages = ['installation appears to be corrupt'];
 
         const suppressCSS = corruptionMessages
             .map(

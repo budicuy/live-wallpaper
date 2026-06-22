@@ -77,14 +77,15 @@ export abstract class AbsPatchFile {
             }
             await fs.promises.writeFile(filePath, content, ENCODING);
             return true;
-        } catch (e: any) {
+        } catch (e) {
             if (!vsc) {
                 return false;
             }
 
+            const msg = e instanceof Error ? e.message : String(e);
             const retry = 'Retry with Admin / Sudo';
             const result = await vsc.window.showErrorMessage(
-                `Live Wallpaper: Cannot write to file — ${e.message}`,
+                `Live Wallpaper: Cannot write to file — ${msg}`,
                 retry,
             );
 
@@ -106,9 +107,13 @@ export abstract class AbsPatchFile {
                     name: 'Live Wallpaper Extension',
                 });
                 return true;
-            } catch (sudoErr: any) {
+            } catch (sudoErr) {
+                const sudoMsg =
+                    sudoErr instanceof Error
+                        ? sudoErr.message
+                        : String(sudoErr);
                 vsc.window.showErrorMessage(
-                    `Live Wallpaper: Sudo failed — ${sudoErr.message}`,
+                    `Live Wallpaper: Sudo failed — ${sudoMsg}`,
                 );
                 return false;
             } finally {

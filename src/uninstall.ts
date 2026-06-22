@@ -36,8 +36,9 @@ async function uninstall(): Promise<void> {
 
         await new HtmlPatchFile(htmlPath).restore();
         console.log('Live Wallpaper: workbench.html restored successfully.');
-    } catch (ex: any) {
-        console.error('Live Wallpaper: Uninstall cleanup failed —', ex.message);
+    } catch (ex) {
+        const msg = ex instanceof Error ? ex.message : String(ex);
+        console.error('Live Wallpaper: Uninstall cleanup failed —', msg);
     }
 }
 
