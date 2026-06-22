@@ -13,7 +13,7 @@ Choose your favorite live wallpapers, loop them, adjust their opacity, and enjoy
 ## 📸 Preview
 
 <p align="center">
-  <video src="https://raw.githubusercontent.com/budicuy/live-wallpaper/main/img/preview.webm" width="100%" autoplay loop muted controls></video>
+  <video src="https://raw.githubusercontent.com/budicuy/live-wallpaper/main/img/preview.mp4" width="100%" autoplay loop muted controls></video>
 </p>
 
 ---
