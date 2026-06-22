@@ -1,0 +1,1 @@
+export { LiveWallpaper } from './LiveWallpaper';

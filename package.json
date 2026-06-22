@@ -1,0 +1,118 @@
+{
+  "name": "live-wallpaper",
+  "displayName": "Live Wallpaper",
+  "description": "Set a live MP4 video as your VSCode background wallpaper",
+  "version": "1.0.0",
+  "publisher": "budicuy",
+  "author": "budicuy",
+  "icon": "icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Themes"
+  ],
+  "keywords": [
+    "background",
+    "wallpaper",
+    "video",
+    "live wallpaper",
+    "mp4"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "main": "./out/extension",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "vscode:uninstall": "node ./out/uninstall",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "liveWallpaper.apply",
+        "category": "Live Wallpaper",
+        "title": "Apply and Reload"
+      },
+      {
+        "command": "liveWallpaper.disable",
+        "category": "Live Wallpaper",
+        "title": "Disable and Reload"
+      },
+      {
+        "command": "liveWallpaper.reset",
+        "category": "Live Wallpaper",
+        "title": "Reset to Defaults"
+      },
+      {
+        "command": "liveWallpaper.uninstall",
+        "category": "Live Wallpaper",
+        "title": "Uninstall Extension"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Live Wallpaper",
+      "properties": {
+        "liveWallpaper.videoPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Absolute path to an MP4 (H.264) video file to use as the background wallpaper.\n\nExamples:\n- **Linux/macOS**: `/home/user/videos/wallpaper.mp4`\n- **Windows**: `C:\\Users\\user\\Videos\\wallpaper.mp4`\n- **file:// URL**: `file:///home/user/videos/wallpaper.mp4`"
+        },
+        "liveWallpaper.opacity": {
+          "type": "number",
+          "default": 0.3,
+          "minimum": 0.1,
+          "maximum": 1.0,
+          "markdownDescription": "Opacity of the video wallpaper. Range: `0.1` (nearly transparent) to `1.0` (fully opaque). Recommended: `0.2` – `0.4`."
+        },
+        "liveWallpaper.size": {
+          "type": "string",
+          "default": "cover",
+          "enum": [
+            "cover",
+            "contain",
+            "fill",
+            "auto"
+          ],
+          "enumDescriptions": [
+            "Scale video to fill the entire window (may crop edges)",
+            "Scale video to fit within the window (may show letterboxing)",
+            "Stretch video to fill the window (may distort aspect ratio)",
+            "Use the video's natural size"
+          ],
+          "markdownDescription": "Controls how the video is sized relative to the VSCode window."
+        },
+        "liveWallpaper.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enable or disable the live wallpaper. When disabled, the video background is removed from VSCode."
+        },
+        "liveWallpaper.loop": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Whether the video should loop continuously."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/uglify-js": "^3.17.5",
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^2.22.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@vscode/sudo-prompt": "^9.3.2",
+    "uglify-js": "^3.17.4"
+  }
+}
