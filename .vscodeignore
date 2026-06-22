@@ -8,3 +8,4 @@ src/**
 **/*.ts
 !out/**
 tsconfig.json
+img/**

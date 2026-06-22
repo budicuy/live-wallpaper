@@ -12,9 +12,7 @@ Choose your favorite live wallpapers, loop them, adjust their opacity, and enjoy
 
 ## 📸 Preview
 
-<p align="center">
-  <video src="img/preview.mp4" width="100%" autoplay loop muted controls></video>
-</p>
+![Live Wallpaper Preview](img/preview.gif)
 
 ---
 
