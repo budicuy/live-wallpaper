@@ -2,7 +2,7 @@
   "name": "live-wallpaper",
   "displayName": "Live Wallpaper",
   "description": "Set a live MP4 video as your VSCode background wallpaper",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "publisher": "budicuy",
   "author": "budicuy",
   "icon": "icon.png",
@@ -50,6 +50,11 @@
         "title": "Apply and Reload"
       },
       {
+        "command": "liveWallpaper.enable",
+        "category": "Live Wallpaper",
+        "title": "Enable and Reload"
+      },
+      {
         "command": "liveWallpaper.disable",
         "category": "Live Wallpaper",
         "title": "Disable and Reload"
@@ -79,7 +84,7 @@
           "description": "Live Wallpaper Configuration",
           "default": {
             "videoPath": "",
-            "opacity": 0.3,
+            "opacity": 0.1,
             "size": "cover",
             "enabled": true,
             "loop": true
@@ -88,14 +93,14 @@
             "videoPath": {
               "type": "string",
               "default": "",
-              "markdownDescription": "Absolute path to an MP4 (H.264) video file to use as the background wallpaper.\n\nExamples:\n- **Linux/macOS**: `/home/user/videos/wallpaper.mp4`\n- **Windows**: `C:\\Users\\user\\Videos\\wallpaper.mp4`\n- **file:// URL**: `file:///home/user/videos/wallpaper.mp4`"
+              "markdownDescription": "Absolute path to an MP4 (H.264) video file to use as the background wallpaper.\n\nExamples:\n- **Linux/macOS**: `/home/user/videos/wallpaper.mp4`\n- **Windows**: `C:/Users/user/Videos/wallpaper.mp4`\n- **file:// URL**: `file:///home/user/videos/wallpaper.mp4`"
             },
             "opacity": {
               "type": "number",
-              "default": 0.3,
+              "default": 0.1,
               "minimum": 0.1,
-              "maximum": 0.5,
-              "markdownDescription": "Opacity of the video wallpaper. Range: `0.1` (nearly transparent) to `0.5` (capped to keep VSCode UI readable). Recommended: `0.2` – `0.4`."
+              "maximum": 1,
+              "markdownDescription": "Opacity of the video wallpaper (0.1 – 1.0). The value is scaled so that `1.0` renders at 80% actual CSS opacity to keep the UI always visible. Recommended: `0.1` – `0.5`."
             },
             "size": {
               "type": "string",
@@ -132,14 +137,12 @@
   "devDependencies": {
     "@biomejs/biome": "^2.5.0",
     "@types/node": "^20.0.0",
-    "@types/uglify-js": "^3.17.5",
     "@types/vscode": "^1.80.0",
     "@vscode/vsce": "^3.9.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@vscode/sudo-prompt": "^9.3.2",
-    "uglify-js": "^3.17.4"
+    "@vscode/sudo-prompt": "^9.3.2"
   },
   "trustedDependencies": [
     "@vscode/vsce-sign"

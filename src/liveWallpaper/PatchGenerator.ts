@@ -1,5 +1,3 @@
-import uglifyjs from 'uglify-js';
-
 import { _ } from '../utils';
 
 /** Configuration for the live wallpaper */
@@ -32,14 +30,25 @@ export class PatchGenerator {
      */
     public static create(config: LiveWallpaperConfig): string {
         const raw = PatchGenerator.buildScript(config);
-        const result = uglifyjs.minify(raw);
+        return PatchGenerator.minify(raw);
+    }
 
-        if (result.error) {
-            // Fallback to unminified if uglify fails (shouldn't happen)
-            return raw;
-        }
-
-        return result.code;
+    /**
+     * Lightweight minifier — no external dependency needed.
+     * Strips single-line comments, collapses whitespace and newlines.
+     * Sufficient for the simple, self-contained script we inject.
+     */
+    private static minify(code: string): string {
+        return (
+            code
+                // Remove single-line comments (but not URLs like https://)
+                .replace(/(?<![:/])\/\/[^\n]*/g, '')
+                // Collapse all whitespace sequences (spaces, tabs, newlines) to a single space
+                .replace(/\s+/g, ' ')
+                // Remove spaces around common operators and punctuation
+                .replace(/\s*([{}();,=+\-*/<>!&|?:])\s*/g, '$1')
+                .trim()
+        );
     }
 
     private static buildScript(config: LiveWallpaperConfig): string {

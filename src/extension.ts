@@ -38,11 +38,7 @@ export async function activate(
     /** Apply the wallpaper patch and reload */
     context.subscriptions.push(
         vscode.commands.registerCommand('liveWallpaper.apply', async () => {
-            await wallpaper.config.update(
-                'enabled',
-                true,
-                vscode.ConfigurationTarget.Global,
-            );
+            await wallpaper.updateConfig({ enabled: true });
             const ok = await wallpaper.applyPatch();
             if (ok) {
                 await vsHelp.reload();
@@ -50,15 +46,26 @@ export async function activate(
         }),
     );
 
-    /** Disable the wallpaper and reload */
+    /** Enable the wallpaper (set enabled=true) and apply patch, then reload */
+    context.subscriptions.push(
+        vscode.commands.registerCommand('liveWallpaper.enable', async () => {
+            await wallpaper.updateConfig({ enabled: true });
+            const ok = await wallpaper.applyPatch();
+            if (ok) {
+                await vsHelp.reload();
+            } else {
+                vscode.window.showWarningMessage(
+                    'Live Wallpaper: Could not enable — make sure `liveWallpaper.videoPath` is set in your settings.',
+                );
+            }
+        }),
+    );
+
+    /** Disable the wallpaper: removes the patch then reloads once */
     context.subscriptions.push(
         vscode.commands.registerCommand('liveWallpaper.disable', async () => {
-            await wallpaper.config.update(
-                'enabled',
-                false,
-                vscode.ConfigurationTarget.Global,
-            );
-            await wallpaper.uninstall();
+            await wallpaper.updateConfig({ enabled: false });
+            await wallpaper.uninstall(); // must happen before reload so the patch is gone
             await vsHelp.reload();
         }),
     );
@@ -83,13 +90,14 @@ export async function activate(
     context.subscriptions.push(
         vscode.commands.registerCommand('liveWallpaper.uninstall', async () => {
             const confirm = await vscode.window.showWarningMessage(
-                'Live Wallpaper: Uninstall extension? The wallpaper patch will be removed.',
+                'Live Wallpaper: Uninstall extension? The wallpaper patch and all settings will be removed.',
                 { title: 'Uninstall' },
                 { title: 'Cancel' },
             );
 
             if (confirm?.title === 'Uninstall') {
-                await wallpaper.uninstall();
+                // reset() removes both the workbench.html patch AND the settings entry
+                await wallpaper.reset();
                 await vscode.commands.executeCommand(
                     'workbench.extensions.uninstallExtension',
                     EXTENSION_ID,
@@ -118,18 +126,13 @@ export async function activate(
         vscode.commands.registerCommand(
             'liveWallpaper.createTemplate',
             async () => {
-                const cfg = vscode.workspace.getConfiguration();
-                await cfg.update(
-                    'liveWallpaper',
-                    {
-                        videoPath: '/absolute/path/to/your/wallpaper.mp4',
-                        opacity: 0.3,
-                        size: 'cover',
-                        enabled: true,
-                        loop: true,
-                    },
-                    vscode.ConfigurationTarget.Global,
-                );
+                await wallpaper.updateConfig({
+                    videoPath: '/absolute/path/to/your/wallpaper.mp4',
+                    opacity: 0.1,
+                    size: 'cover',
+                    enabled: true,
+                    loop: true,
+                });
                 await vscode.commands.executeCommand(
                     'workbench.action.openSettingsJson',
                 );
