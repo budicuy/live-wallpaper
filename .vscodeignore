@@ -9,3 +9,6 @@ src/**
 !out/**
 tsconfig.json
 img/
+biome.json
+bun.lock
+package-lock.json
