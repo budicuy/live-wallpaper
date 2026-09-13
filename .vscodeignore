@@ -13,4 +13,3 @@ img/
 biome.json
 bun.lock
 package-lock.json
-!media/**
