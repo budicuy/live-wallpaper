@@ -2,7 +2,7 @@
   "name": "live-wallpaper",
   "displayName": "Live Wallpaper",
   "description": "Set a live MP4 video as your VSCode background wallpaper",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "publisher": "budicuy",
   "author": "budicuy",
   "icon": "icon.png",
@@ -26,12 +26,13 @@
     "mp4"
   ],
   "activationEvents": [
-    "onStartupFinished"
+    "onStartupFinished",
+    "onView:liveWallpaper.settingsView"
   ],
   "extensionKind": [
     "ui"
   ],
-  "main": "./out/extension",
+  "main": "./out/extension.js",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "vscode:uninstall": "node ./out/uninstall",
@@ -73,8 +74,31 @@
         "command": "liveWallpaper.createTemplate",
         "category": "Live Wallpaper",
         "title": "Create Template Setup"
+      },
+      {
+        "command": "liveWallpaper.openSidebar",
+        "category": "Live Wallpaper",
+        "title": "Open Settings Sidebar"
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "live-wallpaper-sidebar",
+          "title": "Live Wallpaper",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "live-wallpaper-sidebar": [
+        {
+          "type": "webview",
+          "id": "liveWallpaper.settingsView",
+          "name": "Configuration"
+        }
+      ]
+    },
     "configuration": {
       "type": "object",
       "title": "Live Wallpaper",

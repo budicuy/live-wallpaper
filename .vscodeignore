@@ -1,5 +1,6 @@
 .vscode/**
 .vscode-test/**
+.github/**
 out/maps/**
 src/**
 .gitignore
@@ -12,3 +13,4 @@ img/
 biome.json
 bun.lock
 package-lock.json
+!media/**

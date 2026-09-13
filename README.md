@@ -19,6 +19,7 @@ Bring your VSCode window to life by setting an MP4 video as your editor backgrou
 ## ✨ Features
 
 - 🎥 **MP4 Video Backgrounds**: Supports local MP4 video files (H.264 encoded).
+- 🎨 **Interactive Sidebar UI**: Easily configure your wallpaper with a visual menu in the Activity Bar — includes a native file browser button to pick videos without manual typing!
 - 🎛️ **Adjustable Opacity**: Modify opacity from `0.1` to `1.0` — the value is scaled so `1.0` renders at 80% CSS opacity to always keep your UI readable.
 - 📐 **Sizing Modes**: Configure video rendering size (`cover`, `contain`, `fill`, or `auto`).
 - 🔁 **Continuous Loop**: Toggle video looping on or off.
@@ -82,6 +83,7 @@ All commands are available via the Command Palette (`Ctrl + Shift + P` / `Cmd + 
 
 | Command | Description |
 | :--- | :--- |
+| **Open Settings Sidebar** | Opens the visual Live Wallpaper configuration sidebar. |
 | **Create Template Setup** | Generates the configuration block in your `settings.json`. |
 | **Apply and Reload** | Applies current settings and patches the wallpaper. |
 | **Enable and Reload** | Sets `enabled: true`, applies the patch, and reloads. |

@@ -4,6 +4,26 @@ All notable changes to the **Live Wallpaper** VSCode extension will be documente
 
 ---
 
+## [1.1.0] - 2026-09-13
+
+### Added
+- **Interactive Configuration Sidebar UI**: Added a dedicated Activity Bar container and Webview view (`LiveWallpaperViewProvider`) accessible via a custom SVG menu icon (`media/icon.svg`).
+- **Native Video File Picker**: Added a "Pilih Video" / Browse button in the sidebar using native OS file dialog (`vscode.window.showOpenDialog`) with video file filters (`.mp4`, `.webm`, etc.), eliminating manual path typing.
+- **Visual Settings Controls**:
+  - Live Opacity slider (`10%` - `100%`) with interactive percentage indicator.
+  - Sizing mode selector (`cover`, `contain`, `fill`, `auto`).
+  - Master "Enable Wallpaper" switch and continuous loop toggle.
+- **Sidebar Action Buttons**:
+  - "Apply & Reload Window" to persist configuration and patch `workbench.html` in one click.
+  - "Disable & Remove Wallpaper" and "Reset to Defaults".
+- **Command `liveWallpaper.openSidebar`**: Shortcut to focus and open the Live Wallpaper configuration sidebar.
+
+### Changed
+- Explicitly defined `.js` extension on the main entrypoint (`./out/extension.js`) in `package.json` for full compatibility with modern VSCE packaging.
+- Updated `.vscodeignore` to include `media/` assets in VSIX packages while excluding `.github/` workflows.
+
+---
+
 ## [1.0.8] - 2026-06-24
 
 ### Added

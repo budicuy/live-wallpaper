@@ -3,6 +3,7 @@ import vscode from 'vscode';
 import { LiveWallpaper } from './liveWallpaper';
 import { EXTENSION_ID } from './utils/constants';
 import { vsHelp } from './utils/vsHelp';
+import { LiveWallpaperViewProvider } from './views/LiveWallpaperViewProvider';
 
 /**
  * Create and show the status bar item that provides quick access to commands.
@@ -141,6 +142,25 @@ export async function activate(
                 );
             },
         ),
+    );
+
+    /** Register settings sidebar webview view provider */
+    const provider = new LiveWallpaperViewProvider(
+        context.extensionUri,
+        wallpaper,
+    );
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider(
+            LiveWallpaperViewProvider.viewType,
+            provider,
+        ),
+    );
+
+    /** Focus the settings sidebar view */
+    context.subscriptions.push(
+        vscode.commands.registerCommand('liveWallpaper.openSidebar', () => {
+            vscode.commands.executeCommand('liveWallpaper.settingsView.focus');
+        }),
     );
 
     // ── Setup — runs after commands are registered ─────────────────────────
