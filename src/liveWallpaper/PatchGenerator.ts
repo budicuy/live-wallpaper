@@ -94,14 +94,15 @@ export class PatchGenerator {
 
                 var video = document.createElement('video');
                 video.id = LW_VIDEO_ID;
-                video.src = config.videoPath;
                 video.autoplay = true;
                 video.loop = config.loop;
                 video.muted = true;
+                video.defaultMuted = true;
                 video.playsInline = true;
-
-                // Suppress autoplay policy errors silently
-                video.onerror = function() {};
+                video.setAttribute('muted', '');
+                video.setAttribute('autoplay', '');
+                video.setAttribute('loop', '');
+                video.setAttribute('playsinline', '');
 
                 // Fixed full-screen overlay, behind UI but above the base background
                 video.style.cssText = [
@@ -114,19 +115,50 @@ export class PatchGenerator {
                     'opacity: ' + config.opacity,
                     'z-index: 999',
                     'pointer-events: none',
-                    'display: block'
+                    'display: block !important',
+                    'visibility: visible !important'
                 ].join(';');
 
                 document.body.appendChild(video);
 
-                // Ensure playback starts even if the element was inserted before
-                // the browser had a chance to start autoplay
-                video.play().catch(function() {});
+                function startPlay(src) {
+                    video.src = src;
+                    function tryPlay() {
+                        video.play().catch(function() {});
+                    }
+                    tryPlay();
+                    video.addEventListener('canplay', tryPlay);
+                    video.addEventListener('loadeddata', tryPlay);
+                    window.addEventListener('click', tryPlay, { passive: true });
+                    window.addEventListener('keydown', tryPlay, { passive: true });
+                    window.addEventListener('pointerdown', tryPlay, { passive: true });
+                }
+
+                // Fetch to Blob URL first to ensure smooth playback and avoid Range-request restrictions
+                fetch(config.videoPath)
+                    .then(function(res) {
+                        if (!res.ok) { throw new Error('HTTP ' + res.status); }
+                        return res.blob();
+                    })
+                    .then(function(blob) {
+                        var blobUrl = URL.createObjectURL(blob);
+                        startPlay(blobUrl);
+                    })
+                    .catch(function() {
+                        startPlay(config.videoPath);
+                    });
             }
 
             function init() {
                 injectStyle();
                 injectVideo();
+
+                // Periodic check to keep overlay intact if VS Code layout re-renders
+                setInterval(function() {
+                    if (document.body && !document.getElementById(LW_VIDEO_ID)) {
+                        injectVideo();
+                    }
+                }, 4000);
             }
 
             // VSCode loads its workbench asynchronously. We wait for the body

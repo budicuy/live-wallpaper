@@ -1,4 +1,4 @@
-import sudo from '@vscode/sudo-prompt';
+import sudo from './sudoPrompt';
 
 import { vsc } from './vsc';
 

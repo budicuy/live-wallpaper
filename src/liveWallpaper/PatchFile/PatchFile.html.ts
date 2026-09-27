@@ -21,10 +21,23 @@ export class HtmlPatchFile extends AbsPatchFile {
             // Start from a clean slate to avoid duplicate patches
             let content = this.cleanPatches(curContent);
 
-            // workbench.html's CSP blocks inline scripts by default.
-            // We need to add 'unsafe-inline' to script-src so our injected
-            // script can execute.
+            // workbench.html's CSP blocks inline scripts and media sources by default,
+            // and enforces Trusted Types which blocks unapproved script executions.
+            // We need to add 'unsafe-inline' to script-src, add media protocols to media-src,
+            // and remove require-trusted-types-for 'script'.
             content = content.replace(/(script-src)/, `$1 'unsafe-inline'`);
+            content = content.replace(
+                /(media-src[^;]*)/,
+                `$1 vscode-file: file: https: blob: data:`,
+            );
+            content = content.replace(
+                /(connect-src[^;]*)/,
+                `$1 vscode-file: file: blob: data:`,
+            );
+            content = content.replace(
+                /require-trusted-types-for\s+'script'\s*;?/g,
+                '',
+            );
 
             // Inject our script just before </html>
             content = content.replace(
@@ -51,6 +64,15 @@ export class HtmlPatchFile extends AbsPatchFile {
     protected cleanPatches(content: string): string {
         // Remove the 'unsafe-inline' we added (only the one we added, not others)
         content = content.replace(/(script-src) 'unsafe-inline'/, '$1');
+
+        // Remove media-src permissions we added
+        content = content.replace(
+            / vscode-file: file: https: blob: data:/g,
+            '',
+        );
+
+        // Remove connect-src permissions we added
+        content = content.replace(/ vscode-file: file: blob: data:/g, '');
 
         // Remove the injected script block between our markers
         content = content.replace(

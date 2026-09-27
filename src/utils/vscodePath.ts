@@ -16,14 +16,20 @@ import { vsc } from './vsc';
  * On code-server: …/vscode/out
  */
 const base = (() => {
-    const mainFilename = require.main?.filename;
-    if (mainFilename?.length) {
-        return path.dirname(mainFilename);
-    }
-    // appRoot = …/resources/app  →  base = …/resources/app/out
+    // 1. In extension host, vsc.env.appRoot is the official, guaranteed path (points to resources/app)
     const appRoot = vsc?.env.appRoot;
     if (appRoot) {
         return path.join(appRoot, 'out');
+    }
+    // 2. Fallback when vsc is not available (e.g. uninstall script running in standalone Node)
+    const mainFilename = require.main?.filename;
+    if (mainFilename?.length) {
+        const normalized = mainFilename.replace(/\\/g, '/');
+        const outIdx = normalized.lastIndexOf('/out');
+        if (outIdx !== -1) {
+            return mainFilename.substring(0, outIdx + 4);
+        }
+        return path.dirname(mainFilename);
     }
     return '';
 })();

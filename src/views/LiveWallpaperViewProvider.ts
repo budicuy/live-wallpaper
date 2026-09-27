@@ -195,13 +195,16 @@ export class LiveWallpaperViewProvider implements vscode.WebviewViewProvider {
 
     private getHtmlForWebview(webview: vscode.Webview): string {
         const cspSource = webview.cspSource;
+        const iconUri = webview.asWebviewUri(
+            vscode.Uri.joinPath(this.extensionUri, 'icon.png'),
+        );
 
         return /* html */ `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'unsafe-inline'; script-src 'unsafe-inline';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource}; style-src ${cspSource} 'unsafe-inline'; script-src 'unsafe-inline';">
     <title>Live Wallpaper Configuration</title>
     <style>
         :root {
@@ -465,7 +468,10 @@ export class LiveWallpaperViewProvider implements vscode.WebviewViewProvider {
 </head>
 <body>
     <div class="header">
-        <span class="header-title">Settings</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${iconUri}" width="18" height="18" alt="Logo" style="border-radius: 50%; display: block;" />
+            <span class="header-title">Settings</span>
+        </div>
         <span class="status-badge" id="statusBadge">
             <span class="status-dot" id="statusDot"></span>
             <span id="statusText">Checking...</span>

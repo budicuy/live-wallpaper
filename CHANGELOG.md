@@ -4,10 +4,23 @@ All notable changes to the **Live Wallpaper** VSCode extension will be documente
 
 ---
 
+## [1.1.1] - 2026-09-27
+
+### Added
+- **Activity Bar Icon**: Replaced PNG icon with vector SVG (`media/icon.svg`) for crisp rendering in the Activity Bar.
+- **Blob URL Video Playback**: Switched video loading to native Blob Object URLs (`URL.createObjectURL(blob)`) via local `fetch()`, overcoming Chromium's range-request streaming limitations on custom protocols (`vscode-file://`).
+- **Resilient Overlay Attachment**: Added periodic verification to ensure the video overlay remains attached during VS Code DOM layout updates.
+
+### Changed
+- **Zero Runtime Dependencies**: Vendored `@vscode/sudo-prompt` directly into `src/utils/sudoPrompt.js`, allowing self-contained production packaging without npm dependencies.
+- **Enhanced CSP Rules**: Extended Content-Security-Policy injection in `workbench.html` to permit `connect-src` and `media-src` for `vscode-file:`, `file:`, `blob:`, and `data:`.
+
+---
+
 ## [1.1.0] - 2026-09-13
 
 ### Added
-- **Interactive Configuration Sidebar UI**: Added a dedicated Activity Bar container and Webview view (`LiveWallpaperViewProvider`) accessible via the extension's default icon (`icon.png`).
+- **Interactive Configuration Sidebar UI**: Added a dedicated Activity Bar container and Webview view (`LiveWallpaperViewProvider`) accessible via the dedicated Activity Bar icon (`media/icon.svg`).
 - **Native Video File Picker**: Added a "Pilih Video" / Browse button in the sidebar using native OS file dialog (`vscode.window.showOpenDialog`) with video file filters (`.mp4`, `.webm`, etc.), eliminating manual path typing.
 - **Visual Settings Controls**:
   - Live Opacity slider (`10%` - `100%`) with interactive percentage indicator.

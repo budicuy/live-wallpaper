@@ -10,7 +10,8 @@
     "strict": true,
     "resolveJsonModule": true,
     "moduleResolution": "Node16",
+    "allowJs": true,
     "types": ["node"]
   },
-  "exclude": ["node_modules", ".vscode-test"]
+  "exclude": ["out", "node_modules", ".vscode-test"]
 }

@@ -75,7 +75,7 @@ export const vsHelp = {
                 /^file:\/\//,
                 'vscode-file://vscode-app',
             );
-            return vscode.Uri.parse(vsCodeFileUrl).toString();
+            return vscode.Uri.parse(vsCodeFileUrl).toString(true);
         } catch {
             return '';
         }
